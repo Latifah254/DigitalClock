@@ -1,4 +1,5 @@
 FROM nginx:alpine
-COPY . /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+COPY digitalClock.html /usr/share/nginx/html/index.html
+COPY digitalClock.css /usr/share/nginx/html/
+COPY digitalClock.js /usr/share/nginx/html/
