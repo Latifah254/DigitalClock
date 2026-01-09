@@ -1,11 +1,11 @@
-name: Build, Push and Deploy to Server
+name: Build and Push to Docker Hub
 
 on:
   push:
     branches: [ main, master ]
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
     
     steps:
@@ -24,20 +24,3 @@ jobs:
         context: .
         push: true
         tags: latifahnrqlbii/digitalclock:latest
-    
-    - name: Deploy to Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.SERVER_HOST }}
-        username: ${{ secrets.SERVER_USERNAME }}
-        key: ${{ secrets.SERVER_SSH_KEY }}
-        script: |
-          cd /home/student/DigitalClock
-          git pull origin main || git pull origin master
-          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker pull latifahnrqlbii/digitalclock:latest
-          docker stop digitalclock || true
-          docker rm digitalclock || true
-          docker run -d -p 80:80 --name digitalclock --restart unless-stopped latifahnrqlbii/digitalclock:latest
-          docker image prune -f
-          docker logout
