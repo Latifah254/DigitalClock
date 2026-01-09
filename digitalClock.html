@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Digital Clock</title>
+ vr
 
+ main
     <style>
         * {
             margin: 0;
@@ -55,6 +57,14 @@
             padding: 20px 25px;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
+ vr
+            transition: all 0.3s ease;
+        }
+
+        .time-segment:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+ main
         }
 
         .time-value {
@@ -62,6 +72,10 @@
             font-weight: 700;
             color: #ffffff;
             line-height: 1;
+ vr
+
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+main
         }
 
         .time-label {
@@ -70,16 +84,31 @@
             margin-top: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
+vr
+            font-weight: 500;
+ main
         }
 
         .separator {
             font-size: 3rem;
             color: rgba(255, 255, 255, 0.6);
+ vr
+           font-weight: 300;
+main
             animation: blink 1s infinite;
         }
 
         @keyframes blink {
+vr
             50% { opacity: 0.3; }
+
+            0%, 49% {
+                opacity: 1;
+            }
+            50%, 100% {
+                opacity: 0.3;
+            }
+ main
         }
 
         .period {
@@ -94,6 +123,7 @@
             letter-spacing: 2px;
         }
 
+vr
         /* tombol */
         .controls {
             margin-top: 20px;
@@ -142,6 +172,52 @@
         <button id="startBtn">Start</button>
         <button id="pauseBtn">Pause</button>
         <button id="resetBtn">Reset</button>
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+                min-width: auto;
+            }
+
+            .time-value {
+                font-size: 2.5rem;
+            }
+
+            .time-segment {
+                padding: 15px 18px;
+            }
+
+            .separator {
+                font-size: 2rem;
+            }
+
+            .date {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="date" id="date"></div>
+        <div class="time">
+            <div class="time-segment">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Jam</div>
+            </div>
+            <div class="separator">:</div>
+            <div class="time-segment">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Menit</div>
+            </div>
+            <div class="separator">:</div>
+            <div class="time-segment">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Detik</div>
+            </div>
+        </div>
+        <div class="period" id="period">AM</div>
+main
     </div>
 </div>
 
@@ -200,5 +276,51 @@
     startClock();
 </script>
 
+ vr
 </body>
 </html>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            // Format tanggal
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            };
+            const dateStr = now.toLocaleDateString('id-ID', options);
+            document.getElementById('date').textContent = dateStr;
+            
+            // Format waktu
+            let hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            // Tentukan AM/PM
+            const period = hours >= 12 ? 'PM' : 'AM';
+            document.getElementById('period').textContent = period;
+            
+            // Konversi ke format 12 jam
+            hours = hours % 12 || 12;
+            
+            // Tambahkan leading zero
+            const hoursStr = String(hours).padStart(2, '0');
+            const minutesStr = String(minutes).padStart(2, '0');
+            const secondsStr = String(seconds).padStart(2, '0');
+            
+            // Update tampilan
+            document.getElementById('hours').textContent = hoursStr;
+            document.getElementById('minutes').textContent = minutesStr;
+            document.getElementById('seconds').textContent = secondsStr;
+        }
+        
+        // Update setiap detik
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
+ main
