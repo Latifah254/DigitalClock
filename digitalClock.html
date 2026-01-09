@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modern Digital Clock</title>
- vr
 
- main
     <style>
         * {
             margin: 0;
@@ -57,14 +55,6 @@
             padding: 20px 25px;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.2);
- vr
-            transition: all 0.3s ease;
-        }
-
-        .time-segment:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
- main
         }
 
         .time-value {
@@ -72,10 +62,6 @@
             font-weight: 700;
             color: #ffffff;
             line-height: 1;
- vr
-
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-main
         }
 
         .time-label {
@@ -84,31 +70,16 @@ main
             margin-top: 8px;
             text-transform: uppercase;
             letter-spacing: 1px;
-vr
-            font-weight: 500;
- main
         }
 
         .separator {
             font-size: 3rem;
             color: rgba(255, 255, 255, 0.6);
- vr
-           font-weight: 300;
-main
             animation: blink 1s infinite;
         }
 
         @keyframes blink {
-vr
             50% { opacity: 0.3; }
-
-            0%, 49% {
-                opacity: 1;
-            }
-            50%, 100% {
-                opacity: 0.3;
-            }
- main
         }
 
         .period {
@@ -123,24 +94,139 @@ vr
             letter-spacing: 2px;
         }
 
-vr
-        /* tombol */
         .controls {
-            margin-top: 20px;
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
         }
 
         .controls button {
-            padding: 8px 18px;
-            margin: 0 5px;
+            padding: 10px 20px;
             border: none;
             border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
-        #startBtn { background: #4ade80; }
-        #pauseBtn { background: #facc15; }
-        #resetBtn { background: #f87171; }
+        .controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        #toggleFormatBtn { 
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        #toggleLanguageBtn { 
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        #fullscreenBtn { 
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .mode-switch {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .mode-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .stopwatch-controls {
+            display: none;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .stopwatch-controls.active {
+            display: flex;
+        }
+
+        .stopwatch-controls button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .stopwatch-controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #startBtn { 
+            background: rgba(74, 222, 128, 0.9);
+            color: white;
+        }
+
+        #startBtn:hover:not(:disabled) {
+            background: rgba(74, 222, 128, 1);
+        }
+
+        #pauseBtn { 
+            background: rgba(251, 191, 36, 0.9);
+            color: white;
+        }
+
+        #pauseBtn:hover:not(:disabled) {
+            background: rgba(251, 191, 36, 1);
+        }
+
+        #resetBtn { 
+            background: rgba(248, 113, 113, 0.9);
+            color: white;
+        }
+
+        #resetBtn:hover {
+            background: rgba(248, 113, 113, 1);
+        }
+
+        #startBtn:disabled,
+        #pauseBtn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -151,84 +237,60 @@ vr
     <div class="time">
         <div class="time-segment">
             <div class="time-value" id="hours">00</div>
-            <div class="time-label">Jam</div>
+            <div class="time-label" id="hoursLabel">Jam</div>
         </div>
         <div class="separator">:</div>
         <div class="time-segment">
             <div class="time-value" id="minutes">00</div>
-            <div class="time-label">Menit</div>
+            <div class="time-label" id="minutesLabel">Menit</div>
         </div>
         <div class="separator">:</div>
         <div class="time-segment">
             <div class="time-value" id="seconds">00</div>
-            <div class="time-label">Detik</div>
+            <div class="time-label" id="secondsLabel">Detik</div>
         </div>
     </div>
 
     <div class="period" id="period">AM</div>
 
-    <!-- TOMBOL TAMBAHAN -->
     <div class="controls">
-        <button id="startBtn">Start</button>
-        <button id="pauseBtn">Pause</button>
-        <button id="resetBtn">Reset</button>
+        <button id="toggleFormatBtn">12/24 Jam</button>
+        <button id="toggleLanguageBtn">ID/EN</button>
+        <button id="fullscreenBtn">Fullscreen</button>
+    </div>
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-                min-width: auto;
-            }
-
-            .time-value {
-                font-size: 2.5rem;
-            }
-
-            .time-segment {
-                padding: 15px 18px;
-            }
-
-            .separator {
-                font-size: 2rem;
-            }
-
-            .date {
-                font-size: 1rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="date" id="date"></div>
-        <div class="time">
-            <div class="time-segment">
-                <div class="time-value" id="hours">00</div>
-                <div class="time-label">Jam</div>
-            </div>
-            <div class="separator">:</div>
-            <div class="time-segment">
-                <div class="time-value" id="minutes">00</div>
-                <div class="time-label">Menit</div>
-            </div>
-            <div class="separator">:</div>
-            <div class="time-segment">
-                <div class="time-value" id="seconds">00</div>
-                <div class="time-label">Detik</div>
-            </div>
+    <div class="mode-switch">
+        <div class="mode-buttons">
+            <button class="mode-btn active" id="clockModeBtn">Clock</button>
+            <button class="mode-btn" id="stopwatchModeBtn">Stopwatch</button>
         </div>
-        <div class="period" id="period">AM</div>
-main
+
+        <div class="stopwatch-controls" id="stopwatchControls">
+            <button id="startBtn">Start</button>
+            <button id="pauseBtn" disabled>Pause</button>
+            <button id="resetBtn">Reset</button>
+        </div>
     </div>
 </div>
 
 <script>
-    let clockInterval = null;
+    let is24Hour = false;
+    let isIndonesian = true;
+    let isClockMode = true;
+    
+    // Stopwatch variables
+    let stopwatchRunning = false;
+    let stopwatchTime = 0;
+    let stopwatchInterval = null;
 
     function updateClock() {
+        if (!isClockMode) return;
+
         const now = new Date();
 
+        // Update tanggal
         document.getElementById('date').textContent =
-            now.toLocaleDateString('id-ID', {
+            now.toLocaleDateString(isIndonesian ? 'id-ID' : 'en-US', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
@@ -239,10 +301,29 @@ main
         const minutes = now.getMinutes();
         const seconds = now.getSeconds();
 
-        document.getElementById('period').textContent =
-            hours >= 12 ? 'PM' : 'AM';
+        // Update AM/PM
+        const periodElement = document.getElementById('period');
+        if (is24Hour) {
+            periodElement.style.display = 'none';
+        } else {
+            periodElement.style.display = 'inline-block';
+            periodElement.textContent = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12;
+        }
 
-        hours = hours % 12 || 12;
+        // Update waktu
+        document.getElementById('hours').textContent =
+            String(hours).padStart(2, '0');
+        document.getElementById('minutes').textContent =
+            String(minutes).padStart(2, '0');
+        document.getElementById('seconds').textContent =
+            String(seconds).padStart(2, '0');
+    }
+
+    function updateStopwatch() {
+        const hours = Math.floor(stopwatchTime / 3600);
+        const minutes = Math.floor((stopwatchTime % 3600) / 60);
+        const seconds = stopwatchTime % 60;
 
         document.getElementById('hours').textContent =
             String(hours).padStart(2, '0');
@@ -252,75 +333,114 @@ main
             String(seconds).padStart(2, '0');
     }
 
-    function startClock() {
-        if (!clockInterval) {
-            updateClock();
-            clockInterval = setInterval(updateClock, 1000);
+    function startStopwatch() {
+        if (!stopwatchRunning) {
+            stopwatchRunning = true;
+            stopwatchInterval = setInterval(() => {
+                stopwatchTime++;
+                updateStopwatch();
+            }, 1000);
+            
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = false;
         }
     }
 
-    function pauseClock() {
-        clearInterval(clockInterval);
-        clockInterval = null;
+    function pauseStopwatch() {
+        if (stopwatchRunning) {
+            stopwatchRunning = false;
+            clearInterval(stopwatchInterval);
+            
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+        }
     }
 
-    function resetClock() {
-        pauseClock();
-        startClock();
+    function resetStopwatch() {
+        stopwatchRunning = false;
+        clearInterval(stopwatchInterval);
+        stopwatchTime = 0;
+        updateStopwatch();
+        
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('pauseBtn').disabled = true;
     }
 
-    document.getElementById('startBtn').onclick = startClock;
-    document.getElementById('pauseBtn').onclick = pauseClock;
-    document.getElementById('resetBtn').onclick = resetClock;
+    function switchToClockMode() {
+        isClockMode = true;
+        
+        // Reset stopwatch
+        pauseStopwatch();
+        
+        // Update UI
+        document.getElementById('clockModeBtn').classList.add('active');
+        document.getElementById('stopwatchModeBtn').classList.remove('active');
+        document.getElementById('stopwatchControls').classList.remove('active');
+        document.getElementById('period').style.display = is24Hour ? 'none' : 'inline-block';
+        document.getElementById('date').style.display = 'block';
+        
+        updateClock();
+    }
 
-    startClock();
-</script>
+    function switchToStopwatchMode() {
+        isClockMode = false;
+        
+        // Update UI
+        document.getElementById('clockModeBtn').classList.remove('active');
+        document.getElementById('stopwatchModeBtn').classList.add('active');
+        document.getElementById('stopwatchControls').classList.add('active');
+        document.getElementById('period').style.display = 'none';
+        document.getElementById('date').textContent = 'STOPWATCH';
+        
+        updateStopwatch();
+    }
 
- vr
-</body>
-</html>
+    function toggleFormat() {
+        is24Hour = !is24Hour;
+        updateClock();
+    }
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            
-            // Format tanggal
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            };
-            const dateStr = now.toLocaleDateString('id-ID', options);
-            document.getElementById('date').textContent = dateStr;
-            
-            // Format waktu
-            let hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
-            
-            // Tentukan AM/PM
-            const period = hours >= 12 ? 'PM' : 'AM';
-            document.getElementById('period').textContent = period;
-            
-            // Konversi ke format 12 jam
-            hours = hours % 12 || 12;
-            
-            // Tambahkan leading zero
-            const hoursStr = String(hours).padStart(2, '0');
-            const minutesStr = String(minutes).padStart(2, '0');
-            const secondsStr = String(seconds).padStart(2, '0');
-            
-            // Update tampilan
-            document.getElementById('hours').textContent = hoursStr;
-            document.getElementById('minutes').textContent = minutesStr;
-            document.getElementById('seconds').textContent = secondsStr;
+    function toggleLanguage() {
+        isIndonesian = !isIndonesian;
+        
+        // Update label
+        if (isIndonesian) {
+            document.getElementById('hoursLabel').textContent = 'Jam';
+            document.getElementById('minutesLabel').textContent = 'Menit';
+            document.getElementById('secondsLabel').textContent = 'Detik';
+        } else {
+            document.getElementById('hoursLabel').textContent = 'Hours';
+            document.getElementById('minutesLabel').textContent = 'Minutes';
+            document.getElementById('secondsLabel').textContent = 'Seconds';
         }
         
-        // Update setiap detik
         updateClock();
-        setInterval(updateClock, 1000);
-    </script>
+    }
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    // Event listeners
+    document.getElementById('toggleFormatBtn').onclick = toggleFormat;
+    document.getElementById('toggleLanguageBtn').onclick = toggleLanguage;
+    document.getElementById('fullscreenBtn').onclick = toggleFullscreen;
+    
+    document.getElementById('clockModeBtn').onclick = switchToClockMode;
+    document.getElementById('stopwatchModeBtn').onclick = switchToStopwatchMode;
+    
+    document.getElementById('startBtn').onclick = startStopwatch;
+    document.getElementById('pauseBtn').onclick = pauseStopwatch;
+    document.getElementById('resetBtn').onclick = resetStopwatch;
+
+    // Jalankan jam
+    updateClock();
+    setInterval(updateClock, 1000);
+</script>
+
 </body>
 </html>
- main
